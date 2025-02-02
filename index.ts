@@ -157,6 +157,7 @@ it("removes type alias, interface, enum, and module declarations", async () => {
     interface Bar { x: number; }
     enum Dirction { Up, Down }
     module Baz { export const qux = 1; }
+    namespace Name {}
     const a = 123
   `;
   const output = await transformToJs(input);
@@ -164,6 +165,7 @@ it("removes type alias, interface, enum, and module declarations", async () => {
   assert.ok(!output.includes("interface Bar"));
   assert.ok(!output.includes("enum Direction"));
   assert.ok(!output.includes("module Baz"));
+  assert.ok(!output.includes("namespace Name"));
   assert.ok(output.includes("const a = 123"));
 });
 
