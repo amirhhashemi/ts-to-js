@@ -55,6 +55,7 @@ async function transformToJs(tsCode: string) {
     if (
       ts.isTypeAliasDeclaration(node) ||
       ts.isInterfaceDeclaration(node) ||
+      ts.isEnumDeclaration(node) ||
       ts.isModuleDeclaration(node)
     ) {
       code.overwrite(node.pos, node.end, "");
@@ -150,16 +151,18 @@ it("removes type-only export declarations", async () => {
   assert.ok(output.includes(`export { Bar }`));
 });
 
-it("removes type alias, interface, and module declarations", async () => {
+it("removes type alias, interface, enum, and module declarations", async () => {
   const input = `
     type Foo = number;
     interface Bar { x: number; }
+    enum Dirction { Up, Down }
     module Baz { export const qux = 1; }
     const a = 123
   `;
   const output = await transformToJs(input);
   assert.ok(!output.includes("type Foo"));
   assert.ok(!output.includes("interface Bar"));
+  assert.ok(!output.includes("enum Direction"));
   assert.ok(!output.includes("module Baz"));
   assert.ok(output.includes("const a = 123"));
 });
