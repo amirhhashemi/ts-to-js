@@ -1,0 +1,18 @@
+{
+  "name": "ts-to-js",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "magic-string": "^0.30.17",
+    "prettier": "^3.4.2",
+    "typescript": "^5.7.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.13.0"
+  }
+}
