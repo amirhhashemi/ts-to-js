@@ -18,7 +18,7 @@ async function transformToJs(tsCode: string) {
 
   function walk(node: ts.Node) {
     if (ts.isImportDeclaration(node) && node.importClause?.isTypeOnly) {
-      code.overwrite(node.pos, node.end, "");
+      code.remove(node.pos, node.end);
       return;
     }
 
@@ -33,7 +33,7 @@ async function transformToJs(tsCode: string) {
     }
 
     if (ts.isExportDeclaration(node) && node.isTypeOnly) {
-      code.overwrite(node.pos, node.end, "");
+      code.remove(node.pos, node.end);
       return;
     }
 
@@ -58,7 +58,7 @@ async function transformToJs(tsCode: string) {
       ts.isEnumDeclaration(node) ||
       ts.isModuleDeclaration(node)
     ) {
-      code.overwrite(node.pos, node.end, "");
+      code.remove(node.pos, node.end);
       return;
     }
 
@@ -68,7 +68,7 @@ async function transformToJs(tsCode: string) {
           .getChildren()
           .find((c) => c.kind === ts.SyntaxKind.ColonToken);
         if (colonToken) {
-          code.overwrite(colonToken.pos, node.type.end, "");
+          code.remove(colonToken.pos, node.type.end);
         }
       }
     }
@@ -87,7 +87,7 @@ async function transformToJs(tsCode: string) {
           (c) => c.kind === ts.SyntaxKind.GreaterThanToken,
         );
         if (ltToken && gtToken) {
-          code.overwrite(ltToken.pos, gtToken.end, "");
+          code.remove(ltToken.pos, gtToken.end);
         }
       }
       if (node.type) {
@@ -95,7 +95,7 @@ async function transformToJs(tsCode: string) {
           .getChildren()
           .find((c) => c.kind === ts.SyntaxKind.ColonToken);
         if (colonToken) {
-          code.overwrite(colonToken.pos, node.type.end, "");
+          code.remove(colonToken.pos, node.type.end);
         }
       }
       node.parameters.forEach((p) => {
@@ -104,7 +104,7 @@ async function transformToJs(tsCode: string) {
             .getChildren()
             .find((c) => c.kind === ts.SyntaxKind.ColonToken);
           if (colonToken) {
-            code.overwrite(colonToken.pos, p.type.end, "");
+            code.remove(colonToken.pos, p.type.end);
           }
         }
       });
